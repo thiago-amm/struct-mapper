@@ -1,8 +1,19 @@
 package org.br.structmapper;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class StructTypeMap<S, T> {
+
+	// TODO 1. Validar e tratar NPE (NullPointerException) nos parâmetros de todos os métodos,
+    //         se necessário lançar StructMapperException.
+	// TODO 2. Criar enumeração com mensagens de erro da biblioteca.
+	// TODO 3. Criar mé todo que retorna o nome do par de classes que está sendo mapeado.
+	// TODO 4. Validar se o mapeamento entre classes de objetos de origem e destino (StructTypeMap) 
+	//         foi criado antes de invocar o método map().
 
 	private String id;
 	private Class<S> sourceClass;
@@ -60,6 +71,18 @@ public class StructTypeMap<S, T> {
 	public T map(S sourceObject, Function<S, T> mapping) {
 		this.setMapping(mapping);
 		return (T) mapping.apply(sourceObject);
+	}
+
+	public List<T> map(List<S> sourceList, Function<S, T> mapping) {
+		this.setMapping(mapping);
+		List<T> targetList = Collections.emptyList();
+		if (!Objects.isNull(sourceList) && !sourceList.isEmpty()) {
+			targetList = (List<T>) sourceList
+					.stream()
+					.map(sourceObject -> mapping.apply(sourceObject))
+					.collect(Collectors.toList());
+		}
+		return targetList;
 	}
 
 	public static <S, T> String generateId(Class<S> sourceClass, Class<T> targetClass) {

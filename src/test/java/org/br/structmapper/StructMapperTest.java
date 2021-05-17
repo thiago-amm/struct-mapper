@@ -9,17 +9,25 @@ public class StructMapperTest {
 	public void testObjectMapper() {
 
 		Contato contato = new Contato();
-		contato.setNome("Thiago Alexandre");
-		contato.setSobrenome("Martins Monteiro");
+		contato.setNome("Thiago");
+		contato.setSobrenome("Monteiro");
+		
+		ContatoDto contatoDto = new ContatoDto();
+		contatoDto.setNome("Alexandre");
 
 		StructMapper structMapper = new StructMapper();
 
-		ContatoDto contatoDto = structMapper
+		contatoDto = structMapper
 				.createTypeMap(Contato.class, ContatoDto.class)
 				.map(contato, c -> ContatoDto.of().nome(c.nome()));
 		System.out.println(contatoDto);
 
-		ContatoDto contatoDto2 = structMapper.map(contato, ContatoDto.class);
-		System.out.println(contatoDto2);
+		contatoDto = structMapper.map(contato, ContatoDto.class);
+		System.out.println(contatoDto);
+		
+		contato = structMapper
+			.createTypeMap(ContatoDto.class, Contato.class)
+			.map(contatoDto, dto -> Contato.of().nome(dto.nome()).sobrenome("MARTINS MONTEIRO"));
+		System.out.println(contato);
 	}
 }
