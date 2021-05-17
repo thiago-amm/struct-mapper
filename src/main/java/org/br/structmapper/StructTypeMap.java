@@ -72,6 +72,10 @@ public class StructTypeMap<S, T> {
 		this.setMapping(mapping);
 		return (T) mapping.apply(sourceObject);
 	}
+	
+	public T map(S sourceObject) {
+		return (T) mapping.apply(sourceObject);
+	}
 
 	public List<T> map(List<S> sourceList, Function<S, T> mapping) {
 		this.setMapping(mapping);
@@ -83,6 +87,10 @@ public class StructTypeMap<S, T> {
 					.collect(Collectors.toList());
 		}
 		return targetList;
+	}
+	
+	public List<T> map(List<S> sourceList) {
+		return this.map(sourceList, mapping);
 	}
 
 	public static <S, T> String generateId(Class<S> sourceClass, Class<T> targetClass) {
