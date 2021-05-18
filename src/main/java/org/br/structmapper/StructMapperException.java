@@ -2,7 +2,7 @@ package org.br.structmapper;
 
 public class StructMapperException extends RuntimeException {
 
-	private static final long serialVersionUID = -4012645317276652321L;
+	private static final long serialVersionUID = -3196841410835782576L;
 
 	public StructMapperException() {
 		super();
@@ -18,6 +18,10 @@ public class StructMapperException extends RuntimeException {
 
 	public StructMapperException(Throwable cause) {
 		super(cause);
+	}
+
+	public StructMapperException(StructMapperMessages message) {
+		super(message.getText());
 	}
 
 }
